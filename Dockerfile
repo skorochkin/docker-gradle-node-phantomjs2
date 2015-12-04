@@ -1,11 +1,11 @@
 FROM skorochkin/java-gradle:latest
 
-# install required packages
-RUN apt-get update -qq && apt-get -y -qq --no-install-recommends install unzip curl wget ca-certificates
-
 ENV NODE_VERSION=0.12 \
     PHANTOMJS_VERSION=2.0.0-20150528 \
     PHANTOMJS_BIN=/usr/local/bin/phantomjs2
+
+# install required packages
+RUN apt-get update -qq && apt-get -y -qq --no-install-recommends install unzip curl wget ca-certificates
 
 RUN curl --silent --location https://deb.nodesource.com/setup_${NODE_VERSION} | bash - && \
     apt-get -y install nodejs && \
