@@ -1,21 +1,21 @@
-FROM skorochkin/java-gradle:latest
+#FROM skorochkin/java-gradle:latest
+FROM javatest
 
 ENV NODE_VERSION=0.12 \
+    # hotfix for ultra slow npm install on Ubuntu
+    NPM_CONFIG_REGISTRY=http://registry.npmjs.org/ \
     PHANTOMJS_VERSION=2.0.0-20150528 \
     PHANTOMJS_BIN=/usr/local/bin/phantomjs2
 
 # install required packages
-RUN apt-get update -qq && apt-get -y -qq --no-install-recommends install build-essential python python-dev libwebp5 libfontconfig1
-
-RUN mkdir -p /tmp/libjpeg8 && cd /tmp/libjpeg8 && \
-    wget -qO- -O libjpeg8.deb http://http.us.debian.org/debian/pool/main/libj/libjpeg8/libjpeg8_8d1-2_amd64.deb && \
-    dpkg --install libjpeg8.deb
+RUN apt-get update -qq && apt-get -y -qq --no-install-recommends install build-essential python python-dev libwebp5 libfontconfig1 libjpeg8 libicu52
 
 RUN curl --silent --location https://deb.nodesource.com/setup_${NODE_VERSION} | bash - && \
-    apt-get -y install nodejs && \
-    npm cache clean && \
-    npm install npm bower -g && \
-    npm install build npm-cache gulp -g
+    apt-get -y install nodejs
+    # && \
+RUN npm cache clean && \
+    npm install -g --no-optional npm bower && \
+    npm install -g --no-optional --verbose build npm-cache gulp
 
 RUN mkdir -p /tmp/phantomjs2 && cd /tmp/phantomjs2 && \
     wget -qO- -O phantomjs2.zip https://github.com/bprodoehl/phantomjs/releases/download/v${PHANTOMJS_VERSION}/phantomjs-${PHANTOMJS_VERSION}-u1404-x86_64.zip && \
