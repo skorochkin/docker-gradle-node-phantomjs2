@@ -1,5 +1,4 @@
-#FROM skorochkin/java-gradle:latest
-FROM javatest
+FROM skorochkin/java-gradle:latest
 
 ENV NODE_VERSION=0.12 \
     # hotfix for ultra slow npm install on Ubuntu
