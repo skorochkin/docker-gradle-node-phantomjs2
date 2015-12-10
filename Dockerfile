@@ -14,7 +14,7 @@ RUN curl --silent --location https://deb.nodesource.com/setup_${NODE_VERSION} | 
     npm install -g --no-optional npm bower && \
     npm install -g --no-optional build npm-cache gulp
 
-RUN wget -qO- -O /usr/local/bin/phantomjs2 https://github.com/skakri/phantomjs/releases/download/${PHANTOMJS_BIN}/ubuntu-x86_64-phantomjs && \
+RUN wget -qO- -O /usr/local/bin/phantomjs2 https://github.com/skakri/phantomjs/releases/download/${PHANTOMJS_VERSION}/ubuntu-x86_64-phantomjs && \
     chmod +x /usr/local/bin/phantomjs2
 
 # cleanup
