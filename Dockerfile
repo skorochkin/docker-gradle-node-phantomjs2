@@ -3,8 +3,8 @@ FROM skorochkin/java-gradle:latest
 ENV NODE_VERSION="0.12" \
     # hotfix for ultra slow npm install on Ubuntu
     NPM_CONFIG_REGISTRY="http://registry.npmjs.org/" \
-    PHANTOMJS_VERSION=2.0.1-regression-12506 \
-    PHANTOMJS_BIN=/usr/local/bin/phantomjs2
+    PHANTOMJS_VERSION=2.1.1-linux-x86_64 \
+    PHANTOMJS_BIN=/usr/local/bin/phantomjs
 
 # install required packages
 RUN apt-get update -qq && apt-get -y -qq --no-install-recommends install build-essential python python-dev libwebp5 libfontconfig1 libjpeg8 libicu52
@@ -14,8 +14,9 @@ RUN curl --silent --location https://deb.nodesource.com/setup_${NODE_VERSION} | 
     npm install -g --no-optional npm bower && \
     npm install -g --no-optional build npm-cache gulp
 
-RUN wget -qO- -O /usr/local/bin/phantomjs2 https://github.com/skakri/phantomjs/releases/download/${PHANTOMJS_VERSION}/ubuntu-x86_64-phantomjs && \
-    chmod +x /usr/local/bin/phantomjs2
+RUN wget -qO- -O /tmp/phantomjs.tbz https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-${PHANTOMJS_VERSION}.tar.bz2 && \
+    tar xf /tmp/phantomjs.tbz -C /tmp && \
+    mv /tmp/phantomjs-${PHANTOMJS_VERSION}/bin/phantomjs /usr/local/bin/phantomjs
 
 # cleanup
 RUN rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/* && apt-get clean
